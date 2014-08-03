@@ -1,0 +1,163 @@
+.waitMask {
+  cursor: wait;
+  z-index:999;
+  position:absolute;
+  height:100%;
+  width:100%;
+}
+
+.lowercase{
+  text-transform:lowercase;  
+}
+
+.page-count-label {
+  font-size: 24px;
+}
+
+.page-title {
+  width:500px;
+  padding:35px 0px 0px 15px;
+  margin-bottom:50px;
+}
+
+.page-count {
+  font-size: 36px;
+}
+
+
+.page-count-label, .page-count {
+  color:#800000;
+  padding-top:30px;
+}
+
+.tooltip-indicator{
+  border-bottom: 1px dashed #999;
+  display: inline;
+}
+
+.title-bar{
+  color:#800000;
+  font-size:22px;
+}
+
+
+/* OVERWRITES OF BOOTSTRAP */
+.tooltip-inner {
+  background-color: steelblue !important;  
+}
+.tooltip.top .tooltip-arrow {
+  border-top-color: steelblue !important;
+}
+
+.pager{
+  margin:0 !important;
+}
+
+.pager li{
+  margin-left:5px;
+}
+
+.btn{
+  padding:2px 8px !important;
+}
+
+/* LIST */
+.ae-list-container{
+  width:350px;  
+}
+
+.ae-details tr td:first-child{
+  color:#999999;
+  text-transform:uppercase;
+  text-align: right;
+  padding-right:5px;
+}
+
+.ae-list-details-content{
+  clear:both;
+  overflow:auto;
+  height:500px;  
+  padding-top:25px;
+}
+.ae-list-details-buttons{
+  padding-top:5px;
+}
+
+.ae-list-details-backbutton{
+  float:left;
+}
+
+.ae-list-details-pager{
+  float:right;
+}
+
+.ae-list td, .ae-list th {
+  padding:2px 3px;
+  font-size: 13px;
+  border-bottom:1px solid #dddddd;
+}
+
+.ae-list .end-of-block {
+  padding-right:20px;
+}
+
+.ae-list tr:hover td{
+  background-color:#E3E8EC;
+  cursor:pointer;
+}
+
+.icon-seriousness, .icon-gender{
+  width:18px;
+  background-repeat:no-repeat;
+  background-position: center center; 
+}
+.icon-gender-left{
+  padding-left:18px;
+  background-repeat:no-repeat;
+  background-position: left center; 
+}
+.icon-death{
+  background-size: Auto 15px;
+  background-image: url(../images/death.png);
+}
+.icon-disability{
+  background-size: Auto 20px;
+  background-image: url(../images/disability.png);
+}
+.icon-hospital{
+  background-size: Auto 10px;
+  background-image: url(../images/hospital.png);
+}
+.icon-serious{
+  background-size: Auto 12px;
+  background-image: url(../images/serious.png);
+}
+.icon-gender-1{
+  background-size: Auto 16px;
+  background-image: url(../images/gender1.png);
+}
+.icon-gender-2{
+  background-size: Auto 16px;
+  background-image: url(../images/gender2.png);
+}
+
+
+/* BARPIE */
+
+.barpieButtons{
+  float:left;
+  padding:5px 0px 0px 50px;
+  width:150px;
+}
+
+.barpieButtons .btn{
+  display:none;
+}
+
+.barpieTitle{
+  float:left;  
+}
+
+.barpieContainer:hover .barpieButtons .btn{
+  display:block;
+}

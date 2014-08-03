@@ -1,0 +1,104 @@
+<div class="ae-list-container">
+	<div ng-show="!showDetailsPane">
+		<div class="title-bar">
+			Case reports
+		</div>
+		<table class="ae-list">
+			<thead>
+				<th>Receipt</th>
+				<th colspan=3>Patient</th>
+				<th colspan=5>Seriousness</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="(index, ae) in data" ng-click="rowChanged(index+1)">
+					<td class="end-of-block">{{ae.receiptdate | date : 'dd MMM yyyy'}}</td>
+					<td ng-class="'icon-gender icon-gender-'+ae.patient.patientsex"></td>
+					<td>{{ae.patient.patientonsetage}}{{ae.patient.patientonsetage && 'y'}}</td>
+					<td class="end-of-block">{{ae.patient.patientweight}}{{ae.patient.patientweight && 'kg'}}</td>
+					<td ng-class="'icon-seriousness ' + (ae.serious=='1' ? 'icon-serious' : '')"></td>
+					<td ng-class="'icon-seriousness ' + (ae.seriousnessdeath=='1' ? 'icon-death' : '')"></td>
+					<td ng-class="'icon-seriousness ' + (ae.seriousnessdisabling=='1' ? 'icon-disability' : '')"></td>
+					<td ng-class="'icon-seriousness ' + (ae.seriousnesshospitalization=='1' ? 'icon-hospital' : '')"></td>
+				</tr>
+			</tbody>
+		</table>
+		<pagination total-items="count" ng-model="currentPage" ng-change="loadList()" rotate="false" 
+					max-size="5" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+		</pagination>
+	</div>
+
+	<div ng-show="showDetailsPane">			
+		<div class="ae-list-details-content" style="clear:both">
+			<table class="ae-details">
+				<tr><td>Patient</td>
+					<td ng-class="'icon-gender-left icon-gender-'+details.patient.patientsex"> 
+						{{details.patient.patientonsetage}}{{details.patient.patientonsetage && 'y'}} 
+						{{details.patient.patientweight}}{{details.patient.patientweight && 'kg'}}
+					</td>
+				</tr>
+				<tr><td>Report</td><td>{{details.safetyreportid}}</td></tr>
+				<tr><td>Received</td><td>{{details.receivedate | date : 'dd MMM yyyy'}}</td></tr>
+				<tr><td>Receipt</td><td>{{details.receiptdate | date : 'dd MMM yyyy'}}</td></tr>
+				<tr><td>Transmission</td><td>{{details.transmissiondate | date : 'dd MMM yyyy'}}</td></tr>
+				<tr>
+					<td>Seriousness</td>
+					<td>{{details.seriousnessdisabling && "disabling"}} 
+						{{details.seriousnesshospitalization && "hospitalization"}} 										
+						{{details.seriousnesslifethreatening && "life threatening"}} 
+						{{details.seriousnesscongenitalanomali && "congenital anomali"}} 
+						{{details.seriousnessother && "other"}}
+					    {{details.seriousnessdeath && "death"}} 
+					</td>
+				</tr>
+				<tr><td>Company</td><td>{{details.companynumb}}</td></tr>
+				<tr>
+					<td>Primary source</td>
+					<td>{{details.primarysource.qualification}} 
+						{{details.primarysource.reportercountry && '(' + details.primarysource.reportercountry + ')'}}
+					</td>
+				</tr>
+
+				<tr ng-repeat="(index, drug) in details.patient.drug">
+					<td><span ng-if="index==0">Drugs</span></td>
+					<td class="lowercase">
+						<span tooltip-html-unsafe=" <div>{{(drug.drugstartdate | date : 'dd MMM yyyy') || '?'}} 
+														  to 
+														 {{(drug.drugenddate | date : 'dd MMM yyyy') || '?'}}
+													</div>
+													<div>{{drug.drugindication && 'used for '}}{{drug.drugindication}}</div>
+													<div>{{drug.drugdosageform}}</div>
+													<div>{{drug.drugdoseagetext}}</div>
+													<div>{{drug.drugadditional}}</div>
+												  " 
+							  tooltip-trigger="mouseenter"
+							  class="tooltip-indicator"
+							  ng-if="drug.drugstartdate || drug.drugindication || drug.drugdosageform || drug.drugdoseagetext || drug.drugadditional"
+							  >
+							{{drug.medicinalproduct}}
+						</span>
+						<span ng-if="!(drug.drugstartdate || drug.drugindication || drug.drugdosageform || drug.drugdoseagetext || drug.drugadditional)">
+							{{drug.medicinalproduct}}
+						</span>
+						{{drug.drugcharacterization}}
+					</td>
+				</tr>
+
+				<tr ng-repeat="(index, reaction) in details.patient.reaction">
+					<td><span ng-if="index==0">Reactions</span></td>
+					<td class="lowercase">{{reaction.reactionmeddrapt}}</td>
+				</tr>
+				
+			</table>
+		</div>
+		<div class="ae-list-details-buttons">
+			<div class="ae-list-details-backbutton">
+				<button type="button" class="btn btn-primary" ng-click="showDetailsPane=false">
+			        Back to list
+			    </button>
+		     </div>	    
+		    <div class="ae-list-details-pager">
+		    	<pager total-items="count" ng-model="currentRow" ng-change="rowChanged()"></pager>
+		    </div>
+		</div>
+	</div>
+</div>
