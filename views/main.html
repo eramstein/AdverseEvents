@@ -1,40 +1,34 @@
-<!-- 
-<form class="form-inline" role="form">
-<div class="form-group">
-<input class="form-control" placeholder="Generic name" ng-model="dataFilter.drug">
-</div>
-<button type="submit" class="btn btn-default" ng-click="loadData()">Load data</button>	
-</form> -->
-
 <div ng-if="wait" class="waitMask"></div>
 <div class="page-top">
-	<div style="float:left"><chart-lines data="data.byField.date"></chart-lines></div>
-	<div style="float:left" class="page-title">
+	<div class="lines-container">
+		<chart-lines data="data.byField.date" filter="dataFilter.date" filterChanged="filterChanged"></chart-lines>
+	</div>
+	<div class="page-title">
 		<span class="page-count">{{data.totalCount | number}}</span>
 		<span class="page-count-label"> adverse events</span>	
 	</div>
 </div>
-<div style="clear:both">
-	<div style="float:left">
+<div class="bottom-container">
+	<div>
 		<chart-list filter="dataFilter" count="data.totalCount" wait="wait"></chart-list>	
 	</div>
 
-	<div style="float:left;min-width:500px">
+	<div class="barpie-container">
 		<chart-barpie data="data.byField.reaction" filter="dataFilter.reaction" field="reaction" charttitle="Top 10 reaction types" chart="bars" filterChanged="filterChanged">
 		</chart-barpie>
 	</div>
 
-	<div style="float:left;min-width:500px">
+	<div class="barpie-container">
 		<chart-barpie data="data.byField.source" filter="dataFilter.source" field="source" charttitle="Primary sources" chart="donut" filterChanged="filterChanged">
 		</chart-barpie>
 	</div>
 
-	<div style="float:left;min-width:500px">
+	<div class="barpie-container">
 		<chart-barpie data="data.byField.drugClass" filter="dataFilter.drugClass" field="drugClass" charttitle="Top 10 drug class" chart="bars" filterChanged="filterChanged">
 		</chart-barpie>
 	</div>
 
-	<div style="float:left;min-width:500px">
+	<div class="barpie-container">
 		<chart-barpie data="data.byField.indication" filter="dataFilter.indication" field="indication" charttitle="Top 10 indications" chart="donut" filterChanged="filterChanged">
 		</chart-barpie>
 	</div>

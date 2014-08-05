@@ -164,7 +164,7 @@ angular.module('fdaApp')
           var itemExit = items.exit()
                 .transition()
                 .duration(duration)
-                .attr('transform', 'translate(0,1000)')
+                .attr('transform', 'translate(0,500)')
                 .remove();
     		  
         }

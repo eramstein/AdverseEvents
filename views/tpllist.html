@@ -3,6 +3,7 @@
 		<div class="title-bar">
 			Case reports
 		</div>
+
 		<table class="ae-list">
 			<thead>
 				<th>Receipt</th>
@@ -25,9 +26,21 @@
 		<pagination total-items="count" ng-model="currentPage" ng-change="loadList()" rotate="false" 
 					max-size="5" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
 		</pagination>
-	</div>
+	</div>	
 
-	<div ng-show="showDetailsPane">			
+	<div ng-show="showDetailsPane">		
+
+		<div class="ae-list-details-buttons">
+			<div class="ae-list-details-backbutton">
+				<button type="button" class="btn btn-primary" ng-click="showDetailsPane=false">
+			        Back to list
+			    </button>
+		     </div>	    
+		    <div class="ae-list-details-pager">
+		    	<pager total-items="count" ng-model="currentRow" ng-change="rowChanged()"></pager>
+		    </div>
+	    </div>
+
 		<div class="ae-list-details-content" style="clear:both">
 			<table class="ae-details">
 				<tr><td>Patient</td>
@@ -89,16 +102,6 @@
 				</tr>
 				
 			</table>
-		</div>
-		<div class="ae-list-details-buttons">
-			<div class="ae-list-details-backbutton">
-				<button type="button" class="btn btn-primary" ng-click="showDetailsPane=false">
-			        Back to list
-			    </button>
-		     </div>	    
-		    <div class="ae-list-details-pager">
-		    	<pager total-items="count" ng-model="currentRow" ng-change="rowChanged()"></pager>
-		    </div>
-		</div>
+		</div>		
 	</div>
 </div>

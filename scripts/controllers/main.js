@@ -2,9 +2,10 @@
 
 angular.module('fdaApp')
   .controller('MainCtrl', function ($scope, Data) {
+    var dateRange = ['20040101','20150101'];
     $scope.wait = false;
   	$scope.dataFilter = {
-      'date': ['[20040101+TO+20150101]'],
+      'date': dateRange,
       'reaction':[],
       'source':[],
       'drugClass':[],
@@ -34,6 +35,8 @@ angular.module('fdaApp')
           var filter = angular.copy($scope.dataFilter);
           if (key !== 'date') {
             delete filter[key];
+          } else {
+            filter[key] = dateRange;
           }
           Data.getCounts(filter, key).then(function (response) {
             $scope.data.byField[key] = response.results;

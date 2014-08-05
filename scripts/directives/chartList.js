@@ -9,7 +9,7 @@ angular.module('fdaApp')
       link: function postLink(scope, element, attrs) {
         scope.currentRow=1;
         scope.currentPage=1;
-        scope.rowsPerPage=20;
+        scope.rowsPerPage=18;
         scope.showDetailsPane=false;
         scope.data=[];
         scope.details={};
@@ -48,7 +48,7 @@ angular.module('fdaApp')
         };        
         scope.$watch('filter', function () {
           scope.loadList();
-        });        
+        }, true);        
       }
     };
   });

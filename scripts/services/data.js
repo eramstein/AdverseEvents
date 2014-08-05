@@ -9,7 +9,7 @@ angular.module('fdaApp')
   .service('Data', function Data($http) {
     //URL    
   	var fdaApiUrl = 'https://api.fda.gov/drug/event.json?';
-    //code lists (labels corrsponding to the numbers the PAI sends back for certain fields)
+    //code lists (labels corrsponding to the numbers the API sends back for certain fields)
     var codelists = {
       source:['Physician','Pharmacist','Other Health Professional','Lawyer','Consumer/non-health pro'],
       drugcharacterization:['Suspect drug','Concomitant drug','Interacting drug']
@@ -34,13 +34,18 @@ angular.module('fdaApp')
           if(values.length){
             searchString += searchString ? '+AND+' : '';
             searchString += '(' + fieldNames[field].replace('.exact','') + ':(';
-            angular.forEach(values, function(fieldValue){
+            if(field==='date' && values.length === 2){
+              //exception for date filter: we expect 2 values, from and to dates, in yyyymmdd format
+              searchString += '[' + values[0] + '+TO+' + values[1] + ']';
+            } else {
+              angular.forEach(values, function(fieldValue){
                 if(codelists[field]){
                   searchString += '+'  + (codelists[field].indexOf(fieldValue)+1);
                 } else {
                   searchString += '+'  + fieldValue;
                 }                
-            });
+              });
+            }
             searchString += '))';
           }          
         });
