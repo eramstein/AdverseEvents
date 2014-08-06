@@ -6,6 +6,26 @@
   width:100%;
 }
 
+.banner {
+  background-color: #fcf8e3;
+  border: 1px solid #faebcc;
+  color: #8a6d3b;
+  text-align:center;
+  padding:10px 0px;
+}
+
+.banner-title {
+  float:left;
+  padding-left:50px;
+}
+
+.help{
+  float:right;
+  padding-right:50px;
+  font-weight: bold;
+  cursor:pointer;
+}
+
 .lowercase{
   text-transform:lowercase;  
 }
@@ -205,4 +225,8 @@
 
 .barpieContainer:hover .barpieButtons .btn{
   display:block;
+}
+
+.barpieSeparator{
+  clear:both;
 }

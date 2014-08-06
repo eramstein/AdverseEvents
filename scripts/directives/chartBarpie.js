@@ -43,7 +43,7 @@ angular.module('fdaApp')
         // D3 stuff
         // ------------------------------------------------
 
-        //configuration, scales and helpers 
+        //configuration and helpers 
     		var m = [0, 90],
     		    w = 500,
     		    h = 250,
@@ -74,7 +74,7 @@ angular.module('fdaApp')
 
         var arc = d3.svg.arc();
 
-    		var svg = d3.select(element[0].childNodes[0]).append('svg')
+    		var svg = d3.select(element[0].childNodes[0]).append('div').append('svg')
     		      .attr('width', w)
     		      .attr('height', h)
     		    .append('g')
@@ -149,14 +149,15 @@ angular.module('fdaApp')
               return d.data.n;
             })
             .attr('visibility', function(d) { return xScale(d.data.v) > w/20 ? 'visible' : 'hidden' ;})
+            .attr('xml:space', 'preserve')
             .text(function(d) { 
                     var text;
-                    if(max>=1000){
-                        text = Math.round(+d.data.v/1000) + 'k';
+                    if(max>=10000){
+                        text = Math.round(+d.data.v/1000) + 'k';                        
                     }
                     else {
                         text = d.data.v;                         
-                    }
+                    }                  
                     return text;                   
             });
 
@@ -165,8 +166,7 @@ angular.module('fdaApp')
                 .transition()
                 .duration(duration)
                 .attr('transform', 'translate(0,500)')
-                .remove();
-    		  
+                .remove();    		  
         }
 
         
@@ -192,6 +192,7 @@ angular.module('fdaApp')
           this.oldEndAngle = +this.oldEndAngle || 0;
           this.oldBarY = +this.oldBarY || y0 - (h / 2 - labelsHeight) * initialDistance;
 
+          //check what type of transformation we have to perform
           var func;          
           if(transitionType==='resize'){
              if(transitionDirection==='bars'){
@@ -201,9 +202,12 @@ angular.module('fdaApp')
              }
           } else {
             func = morph;
-          }          
-          return func;          
+          }
 
+          //return one of the appropriate interpolation functions below
+          return func;
+
+          //barchart to barchart - just resize bars and move them vertically
           function resizeBars (t) {     
             if(t===1){
               this.oldBarLength = +barLength;
@@ -229,10 +233,11 @@ angular.module('fdaApp')
                 vix = adjustLabelTextAnchor(f, 1),
                 viy = arc.centroid(f)[1];
                 
-            translate (f, xx, yy, vlx, vly, vix, viy);
+            transform (f, xx, yy, vlx, vly, vix, viy);
             
           }
 
+          //donut to donut - resize arcs
           function resizeDonut (t) {
             if(t===1){
               this.oldStartAngle = +d.startAngle;
@@ -258,17 +263,22 @@ angular.module('fdaApp')
                 vix = adjustLabelTextAnchor(f, 0) + arc.centroid(fl)[0], 
                 viy = arc.centroid(fl)[1];
                 
-            translate (f, xx, yy, vlx, vly, vix, viy);
+            transform (f, xx, yy, vlx, vly, vix, viy);
           }
 
   		    function morph(t) {
+            if(t===1){
+              this.oldStartAngle = +d.startAngle;
+              this.oldEndAngle = +d.endAngle;
+              this.oldBarLength = +barLength;
+              this.oldBarY = y0 - (h / 2 - labelsHeight) * initialDistance;
+            }
   		      //t will go from 0 to 1 during the transition
   		      //for t=0 we have bars, and for t=1 we have a donut chart
   		      //the transitionDirection attribute of the paths indicate if we should go from bars to donut or vice versa - we use it to reverse t if needed
   		      if(transitionDirection=='bars'){
   		        t = 1 - t;
   		      }            
-
   		      //(original idea of interpolating on initially huge D3.js arcs is from Mike Bostock here: http://bl.ocks.org/mbostock/1256572)
   		      //the idea is to start with huge arcs (hundreds of thousands pixels radius), take a very small slice of them (start and end anles very close) and translate them back to the origin
   		      //this make it look like rectangles initially. initial all arcs have similar angles to keep the pseudo-rectangles aligned.
@@ -295,7 +305,7 @@ angular.module('fdaApp')
   		          vix = adjustLabelTextAnchor(f, a) + (1-a) * arc.centroid(fl)[0], //for the item labels we start at the left of the initial arcs, then converge towards the centroid of fl, which are similar arcs with bigger radius
   		          viy = a * arc.centroid(f)[1] + (1-a) * arc.centroid(fl)[1];
   		          
-  		      translate (f, xx, yy, vlx, vly, vix, viy);
+  		      transform (f, xx, yy, vlx, vly, vix, viy);
   		    }
 
           function adjustLabelTextAnchor(f, a){
@@ -310,7 +320,7 @@ angular.module('fdaApp')
             return shiftX; 
           }
 
-          function translate (f, xx, yy, vlx, vly, vix, viy) {
+          function transform (f, xx, yy, vlx, vly, vix, viy) {
             //transform arc
             path.attr('transform', 'translate(' + xx + ',' + yy + ')');
             path.attr('d', arc(f));
@@ -370,8 +380,7 @@ angular.module('fdaApp')
             if(selectedCount === 1 && foundAt >=0){
                 scope.filter = [];
             }
-            scope.filterchanged(scope.field);            
-            buildChart ();
+            scope.filterchanged(scope.field);
         }
         
         //function setting all paths transition mode (resize or morph)

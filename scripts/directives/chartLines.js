@@ -40,7 +40,7 @@ angular.module('fdaApp')
               .y1(function(d) { return y(d.values); });
 
         var container = svg.append('g')
-              .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+              .attr('transform', 'translate(' + (margin.left + 0.5) + ',' + (margin.top + 0.5)+ ')');
 
         container.append('path')
           .attr('class', 'area');
@@ -64,26 +64,28 @@ angular.module('fdaApp')
             var date1 = $filter('date')(dates[0],'yyyyMMdd');
             var date2 = $filter('date')(dates[1],'yyyyMMdd');
             scope.filter = [date1, date2];
-            scope.$digest(); // this is to make sure teh changes to the main controller's filter are applied before we trigger the filterchanged function
+            scope.$digest(); // this is to make sure the changes to the main controller's filter are applied before we trigger the filterchanged function
             scope.filterchanged();
         }
 
-        function buildChart() {                    
+        function buildChart() {
+          //we roll up data monthly and center data points in the middle of the month
           var data = scope.data.map(function (d) {
             var midOfMonth = d.time.substr(0,6) + '15';
             d.time = d3.time.format('%Y%m%d').parse(midOfMonth);
             return d;
           });
-
           data = d3.nest()
                     .key(function(d) { return Date.parse(d.time);})
                     .rollup(function(d) { 
                      return d3.sum(d, function(g) {return g.count; });
                     }).entries(data);           
-                                    
+          
+          //update scales with new data                         
           x.domain(d3.extent(data.map(function(d) { return d.key; })));
           y.domain([0, d3.max(data.map(function(d) { return d.values; }))]);
 
+          //redraw chart
           container.selectAll('.area')
               .datum(data)
               .transition()

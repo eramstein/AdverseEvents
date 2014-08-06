@@ -1,35 +1,45 @@
 <div ng-if="wait" class="waitMask"></div>
-<div class="page-top">
-	<div class="lines-container">
-		<chart-lines data="data.byField.date" filter="dataFilter.date" filterChanged="filterChanged"></chart-lines>
-	</div>
-	<div class="page-title">
-		<span class="page-count">{{data.totalCount | number}}</span>
-		<span class="page-count-label"> adverse events</span>	
-	</div>
+
+
+<div class="banner">
+	<div class="banner-title">data from <a href="https://open.fda.gov/" target="_blank">openFDA drugs API</a></div>	
+	<span class="glyphicon glyphicon-exclamation-sign"></span> Not for clinical use! This is a hobby project.
+	<div class="help">HELP</div>
 </div>
-<div class="bottom-container">
-	<div>
-		<chart-list filter="dataFilter" count="data.totalCount" wait="wait"></chart-list>	
-	</div>
 
-	<div class="barpie-container">
-		<chart-barpie data="data.byField.reaction" filter="dataFilter.reaction" field="reaction" charttitle="Top 10 reaction types" chart="bars" filterChanged="filterChanged">
-		</chart-barpie>
+<div class="container">
+	<div class="page-top">
+		<div class="lines-container">
+			<chart-lines data="data.byField.date" filter="dataFilter.date" filterChanged="filterChanged"></chart-lines>
+		</div>
+		<div class="page-title">
+			<span class="page-count">{{data.totalCount | number}}</span>
+			<span class="page-count-label"> adverse events</span>	
+		</div>
 	</div>
+	<div class="bottom-container">
+		<div>
+			<chart-list filter="dataFilter" count="data.totalCount" wait="wait"></chart-list>	
+		</div>
 
-	<div class="barpie-container">
-		<chart-barpie data="data.byField.source" filter="dataFilter.source" field="source" charttitle="Primary sources" chart="donut" filterChanged="filterChanged">
-		</chart-barpie>
-	</div>
+		<div class="barpie-container">
+			<chart-barpie data="data.byField.reaction" filter="dataFilter.reaction" field="reaction" charttitle="Top 10 reaction types" chart="bars" filterChanged="filterChanged">
+			</chart-barpie>
+		</div>
 
-	<div class="barpie-container">
-		<chart-barpie data="data.byField.drugClass" filter="dataFilter.drugClass" field="drugClass" charttitle="Top 10 drug class" chart="bars" filterChanged="filterChanged">
-		</chart-barpie>
-	</div>
+		<div class="barpie-container">
+			<chart-barpie data="data.byField.source" filter="dataFilter.source" field="source" charttitle="Primary sources" chart="donut" filterChanged="filterChanged">
+			</chart-barpie>
+		</div>
 
-	<div class="barpie-container">
-		<chart-barpie data="data.byField.indication" filter="dataFilter.indication" field="indication" charttitle="Top 10 indications" chart="donut" filterChanged="filterChanged">
-		</chart-barpie>
+		<div class="barpie-container">
+			<chart-barpie data="data.byField.drugClass" filter="dataFilter.drugClass" field="drugClass" charttitle="Top 10 drug class" chart="bars" filterChanged="filterChanged">
+			</chart-barpie>
+		</div>
+
+		<div class="barpie-container">
+			<chart-barpie data="data.byField.indication" filter="dataFilter.indication" field="indication" charttitle="Top 10 indications" chart="donut" filterChanged="filterChanged">
+			</chart-barpie>
+		</div>
 	</div>
 </div>

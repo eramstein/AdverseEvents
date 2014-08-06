@@ -5,7 +5,6 @@ svg {
 
 .area {
   fill: steelblue;
-  clip-path: url(#clip);
 }
 
 .axis path,
